@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bibliothèque ElecPro — Tutoriels & PDFs</title>
+  <meta name="description" content="Bibliothèque ElecPro : PDFs pratiques en électricité. Achat 500 F - accès 90 jours." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --green:#28a745; --green-dark:#218838; --bg:#f6f8fa; --card:#ffffff; --muted:#6b7280;
+      --max-w:1400px;
+    }
+    *{box-sizing:border-box;font-family:"Barlow",sans-serif}
+    body{margin:0;background:var(--bg);color:#111}
+
+    header{
+      background:linear-gradient(0deg, rgba(40,167,69,0.95), rgba(40,167,69,0.95));
+      color:#fff;
+      padding:20px 16px;
+      text-align:center;
+    }
+    header .wrap{max-width:var(--max-w);margin:0 auto}
+    header h1{margin:0;font-size:20px;letter-spacing:0.6px}
+    header p{margin:6px 0 0;font-size:13px;opacity:0.95}
+
+    main{width:100%}
+    .container{max-width:var(--max-w);margin:18px auto;padding:0 16px}
+
+    .controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+    .search{flex:1;min-width:220px;position:relative}
+    .search input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e5e7eb;font-size:14px}
+
+    .categories{display:flex;gap:8px;flex-wrap:wrap}
+    .cat-btn{
+      background:#fff;
+      border:1px solid #e6e7ea;
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:600;
+      font-size:13px;
+      cursor:pointer;
+      color:#333;
+    }
+    .cat-btn.active{
+      background:var(--green);
+      color:#fff;
+      border-color:var(--green);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+      gap:16px;
+    }
+
+    .card{
+      background:var(--card);
+      border-radius:10px;
+      padding:14px;
+      border:1px solid rgba(0,0,0,0.04);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-height:160px;
+    }
+    .meta{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .thumb{
+      width:72px;
+      height:96px;
+      border-radius:6px;
+      background:linear-gradient(180deg,#e9f6ee,#dff0e6);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:12px;
+      color:var(--green);
+      font-weight:700;
+    }
+    .title{
+      font-weight:700;
+      font-size:15px;
+      margin:0;
+    }
+    .desc{
+      color:var(--muted);
+      font-size:13px;
+      margin:0;
+    }
+    .tags{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+    .tag{
+      font-size:12px;
+      padding:6px 8px;
+      border-radius:999px;
+      background:#f1f5f9;
+      border:1px solid #e6eef0;
+      color:#374151;
+    }
+
+    .price{
+      font-weight:700;
+      color:var(--green);
+      font-size:15px;
+    }
+    .small{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .actions{
+      margin-top:auto;
+      display:flex;
+      gap:8px;
+    }
+    .btn{
+      flex:1;
+      padding:10px 12px;
+      border-radius:8px;
+      text-decoration:none;
+      text-align:center;
+      font-weight:600;
+      font-size:13px;
+      display:inline-block;
+      cursor:pointer;
+      border:1px solid transparent;
+    }
+    .btn-preview{
+      background:#fff;
+      color:var(--green);
+      border-color:var(--green);
+    }
+    .btn-buy{
+      background:var(--green);
+      color:#fff;
+    }
+
+    /* Modal */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,0.6);
+      z-index:50;
+      padding:18px;
+    }
+    .modal.open{
+      display:flex;
+    }
+    .modal-content{
+      width:100%;
+      max-width:500px;
+      background:#fff;
+      border-radius:8px;
+      overflow:hidden;
+      padding:20px;
+    }
+    .modal-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid #eee;
+      padding-bottom:10px;
+      margin-bottom:15px;
+    }
+    .payment-method{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:15px;
+    }
+    .payment-method img{
+      width:40px;
+      height:auto;
+    }
+    .whatsapp-btn{
+      display:block;
+      background:#25D366;
+      color:#fff;
+      text-align:center;
+      padding:10px;
+      border-radius:6px;
+      text-decoration:none;
+      font-weight:600;
+    }
+
+    /* PDF modal bigger */
+    #pdfModal .modal-content {
+      max-width:1000px;
+      height:80vh;
+      padding:20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>Bibliothèque ElecPro — Tutoriels & PDFs</h1>
+    <p>Téléchargez ou consultez nos manuels : paiement 500 F — accès 90 jours</p>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <section class="grid" id="libraryGrid"></section>
+  </div>
+</main>
+
+<!-- Modale Aperçu PDF -->
+<div id="pdfModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-content">
+    <div class="modal-header">
+      <strong id="modalTitle">Aperçu</strong>
+      <button aria-label="Fermer la modale aperçu" onclick="closeModal('pdfModal')">Fermer</button>
+    </div>
+    <iframe id="pdfFrame" src="" style="width:100%;height:100%;border:0"></iframe>
+  </div>
+</div>
+
+<!-- Modale Paiement -->
+<div id="payModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="payModalTitle">
+  <div class="modal-content">
+    <div class="modal-header">
+      <strong id="payModalTitle">Méthodes de Paiement</strong>
+      <button aria-label="Fermer la modale paiement" onclick="closeModal('payModal')">Fermer</button>
+    </div>
+    <p id="payBookTitle" style="font-weight:600; margin-bottom:12px;"></p>
+    <div class="payment-method">
+      <img src="moov-logo.png" alt="Logo Moov">
+      <div><strong>Moov :</strong> +229 63 82 87 67</div>
+    </div>
+    <div class="payment-method">
+      <img src="mtn-logo.png" alt="Logo MTN">
+      <div><strong>MTN :</strong> +229 69 77 00 66</div>
+    </div>
+    <a
+      id="whatsappConfirmBtn"
+      class="whatsapp-btn"
+      href="#"
+      target="_blank"
+      rel="noopener noreferrer"
+    >Confirmer via WhatsApp</a>
+  </div>
+</div>
+
+<script>
+  const BOOKS = [
+    {
+      id: 'montage-parabole',
+      title: 'Guide Pratique du Montage Parabole',
+      desc: 'Tutoriel complet et illustré',
+      author: 'ElecPro',
+      pages: 100,
+      price: 500,
+      file: 'elecpro-montage-parabole.pdf'
+    },
+    {
+      id: 'circuit-commande',
+      title: 'Cours Circuit Commande & Puissance',
+      desc: 'Cours détaillé en automatisme',
+      author: 'ElecPro',
+      pages: 120,
+      price: 500,
+      file: 'Cours_Circuit_Commande_Puissance_Automatisme.pdf'
+    },
+    {
+      id: 'initiation-electricite',
+      title: 'Initiation à l’Électricité',
+      desc: 'Bases et notions fondamentales',
+      author: 'ElecPro',
+      pages: 80,
+      price: 500,
+      file: 'initiation-electricite.pdf'
+    }
+  ];
+
+  const grid = document.getElementById('libraryGrid');
+
+  function renderGrid() {
+    grid.innerHTML = '';
+    BOOKS.forEach(book => {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      card.innerHTML = `
+        <div class="meta">
+          <div class="thumb">PDF</div>
+          <div>
+            <p class="title">${book.title}</p>
+            <p class="desc">${book.desc}</p>
+            <div class="tags">
+              <span class="tag">${book.pages} pages</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <small class="small">Auteur : ${book.author}</small>
+          <div style="margin-left:auto" class="price">${book.price} F</div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-preview" aria-label="Aperçu du livre ${book.title}" onclick="openPdf('${book.file}', '${book.title}')">Aperçu</button>
+          <button class="btn btn-buy" aria-label="Payer le livre ${book.title}" onclick='openPayModal(${JSON.stringify(book)})'>Payer ${book.price} F</button>
+        </div>
+      `;
+
+      grid.appendChild(card);
+    });
+  }
+
+  function openPdf(file, title) {
+    document.getElementById('pdfFrame').src = file;
+    document.getElementById('modalTitle').textContent = title;
+    openModal('pdfModal');
+  }
+
+  function openPayModal(book) {
+    document.getElementById('payBookTitle').textContent = `Paiement pour : ${book.title} — ${book.price} F`;
+    const whatsappLink = `https://wa.me/22963828767?text=Bonjour%2C%20j%27ai%20pay%C3%A9%20pour%20le%20livre%20"${encodeURIComponent(book.title)}".%20Merci%20ElecPro.`;
+    const whatsappBtn = document.getElementById('whatsappConfirmBtn');
+    whatsappBtn.href = whatsappLink;
+
+    openModal('payModal');
+  }
+
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    if (id === 'pdfModal') document.getElementById('pdfFrame').src = '';
+  }
+
+  renderGrid();
+</script>
+
+</body>
+</html>
