@@ -32,27 +32,6 @@
     main{width:100%}
     .container{max-width:var(--max-w);margin:18px auto;padding:0 16px}
 
-    .controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
-    .search{flex:1;min-width:220px;position:relative}
-    .search input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e5e7eb;font-size:14px}
-
-    .categories{display:flex;gap:8px;flex-wrap:wrap}
-    .cat-btn{
-      background:#fff;
-      border:1px solid #e6e7ea;
-      padding:8px 12px;
-      border-radius:999px;
-      font-weight:600;
-      font-size:13px;
-      cursor:pointer;
-      color:#333;
-    }
-    .cat-btn.active{
-      background:var(--green);
-      color:#fff;
-      border-color:var(--green);
-    }
-
     .grid{
       display:grid;
       grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
@@ -147,36 +126,6 @@
       color:#fff;
     }
 
-    /* Modal */
-    .modal{
-      position:fixed;
-      inset:0;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      background:rgba(0,0,0,0.6);
-      z-index:50;
-      padding:18px;
-    }
-    .modal.open{
-      display:flex;
-    }
-    .modal-content{
-      width:100%;
-      max-width:500px;
-      background:#fff;
-      border-radius:8px;
-      overflow:hidden;
-      padding:20px;
-    }
-    .modal-header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      border-bottom:1px solid #eee;
-      padding-bottom:10px;
-      margin-bottom:15px;
-    }
     .payment-method{
       display:flex;
       align-items:center;
@@ -197,13 +146,6 @@
       text-decoration:none;
       font-weight:600;
     }
-
-    /* PDF modal bigger */
-    #pdfModal .modal-content {
-      max-width:1000px;
-      height:80vh;
-      padding:20px;
-    }
   </style>
 </head>
 <body>
@@ -221,21 +163,10 @@
   </div>
 </main>
 
-<!-- Modale Aperçu PDF -->
-<div id="pdfModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal-content">
-    <div class="modal-header">
-      <strong id="modalTitle">Aperçu</strong>
-      <button aria-label="Fermer la modale aperçu" onclick="closeModal('pdfModal')">Fermer</button>
-    </div>
-    <iframe id="pdfFrame" src="" style="width:100%;height:100%;border:0"></iframe>
-  </div>
-</div>
-
 <!-- Modale Paiement -->
-<div id="payModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="payModalTitle">
-  <div class="modal-content">
-    <div class="modal-header">
+<div id="payModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="payModalTitle" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); align-items:center; justify-content:center; z-index:50;">
+  <div class="modal-content" style="background:#fff; border-radius:8px; padding:20px; max-width:500px;">
+    <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:15px;">
       <strong id="payModalTitle">Méthodes de Paiement</strong>
       <button aria-label="Fermer la modale paiement" onclick="closeModal('payModal')">Fermer</button>
     </div>
@@ -313,7 +244,7 @@
           <div style="margin-left:auto" class="price">${book.price} F</div>
         </div>
         <div class="actions">
-          <button class="btn btn-preview" aria-label="Aperçu du livre ${book.title}" onclick="openPdf('${book.file}', '${book.title}')">Aperçu</button>
+          <button class="btn btn-preview" aria-label="Aperçu du livre ${book.title}" onclick="openPdf('${book.file}')">Aperçu</button>
           <button class="btn btn-buy" aria-label="Payer le livre ${book.title}" onclick='openPayModal(${JSON.stringify(book)})'>Payer ${book.price} F</button>
         </div>
       `;
@@ -322,10 +253,8 @@
     });
   }
 
-  function openPdf(file, title) {
-    document.getElementById('pdfFrame').src = file;
-    document.getElementById('modalTitle').textContent = title;
-    openModal('pdfModal');
+  function openPdf(file) {
+    window.open(file, '_blank');
   }
 
   function openPayModal(book) {
@@ -334,16 +263,13 @@
     const whatsappBtn = document.getElementById('whatsappConfirmBtn');
     whatsappBtn.href = whatsappLink;
 
-    openModal('payModal');
-  }
-
-  function openModal(id) {
-    document.getElementById(id).classList.add('open');
+    const modal = document.getElementById('payModal');
+    modal.style.display = 'flex';
   }
 
   function closeModal(id) {
-    document.getElementById(id).classList.remove('open');
-    if (id === 'pdfModal') document.getElementById('pdfFrame').src = '';
+    const modal = document.getElementById(id);
+    modal.style.display = 'none';
   }
 
   renderGrid();
